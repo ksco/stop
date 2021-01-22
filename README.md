@@ -1,3 +1,3 @@
 # stop
 
-`stop` is a <u>s</u>imple remote server monitor, just like <u>`top`</u>, but based on the web, with a neat UI.
+`stop` is a **s**imple remote server monitor, just like **top**, but based on the web, with a neat UI.
