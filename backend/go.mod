@@ -1,4 +1,4 @@
-module qtop
+module stop
 
 go 1.14
 
