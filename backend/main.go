@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"qtop/frame"
+	"qtop/jwt"
 	"qtop/pubsub"
 	"qtop/remote"
 	"qtop/ws"
@@ -15,10 +16,7 @@ import (
 )
 
 func main() {
-	var err = godotenv.Load()
-	if err != nil {
-		log.Println(err)
-	}
+	_ = godotenv.Load()
 
 	serversStr := os.Getenv("SERVERS")
 	servers := strings.Split(serversStr, ",")
@@ -52,6 +50,13 @@ func main() {
 		}
 	}()
 
+	jwtSecret := []byte(os.Getenv("JWT_SECRET"))
+	token, err := jwt.GenJwt("stop", jwtSecret, 365)
+	if err != nil {
+		return
+	}
+	println("Auth Token:", token)
+
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		client, err := ws.NewClient(w, r)
 		if err != nil {
@@ -59,9 +64,13 @@ func main() {
 		}
 		defer client.Close()
 
-		// TODO: token validation
-		_, ok := <-client.ReceiveChan()
+		tokenStr, ok := <-client.ReceiveChan()
 		if !ok {
+			return
+		}
+
+		_, err = jwt.ParseJwt(tokenStr, jwtSecret)
+		if err != nil {
 			return
 		}
 
