@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/joho/godotenv"
 	"log"
 	"net/http"
@@ -55,7 +56,13 @@ func main() {
 	if err != nil {
 		return
 	}
-	println("Auth Token:", token)
+	fmt.Printf(`
+       __          
+  ___ / /____  ___ 
+ (_-</ __/ _ \/ _ \
+/___/\__/\___/ .__/
+            /_/     Simple and extendable server monitor.
+Token: %s`, token)
 
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		client, err := ws.NewClient(w, r)

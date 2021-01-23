@@ -1,6 +1,6 @@
 # stop
 
-`stop` is a **s**imple remote server monitor, just like **top**, but based on the web, with a neat UI.
+Simple and extendable server monitor, it's `top` for the web.
 
 
 ### How to run?
@@ -9,3 +9,8 @@
 # Backend
 docker run --name stop -p 5566:5566 --env-file=<env file path> -v ~/.ssh:/root/.ssh -d --rm <image>
 ```
+
+
+### License
+
+The MIT License (MIT) - see [LICENSE](LICENSE) for more details
