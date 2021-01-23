@@ -1,0 +1,8 @@
+# Common
+**/.env
+
+# Backend
+**/vendor
+**/.idea/
+
+# Frontend
