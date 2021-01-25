@@ -62,7 +62,8 @@ func main() {
  (_-</ __/ _ \/ _ \
 /___/\__/\___/ .__/
             /_/     Simple and extendable server monitor.
-Token: %s`, token)
+Token: %s
+`, token)
 
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		client, err := ws.NewClient(w, r)
