@@ -1,4 +1,4 @@
-# stop
+![](stop.png)
 
 Simple and extendable server monitor, it's `top` for the web.
 
