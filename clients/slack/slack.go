@@ -45,7 +45,15 @@ func Push(f *Frame) error {
 			Type: "section",
 			Text: &Text{
 				Type: "mrkdwn",
-				Text: "*Memory Usage*: " + progressBar(f.MemoryUsage()),
+				Text: fmt.Sprintf(
+					"*Mem Usage*:\n`%s` %.2f%%\n*CPU Usage*:\n`%s` %.2f%%\n*Disk Usage*:\n`%s` %.2f%%\n",
+					progressBar(f.MemoryUsagePercent()),
+					f.MemoryUsagePercent(),
+					progressBar(f.CPUUsagePercent),
+					f.CPUUsagePercent,
+					progressBar(f.DiskUsagePercent()),
+					f.DiskUsagePercent(),
+				),
 			},
 		}},
 	}
@@ -53,7 +61,6 @@ func Push(f *Frame) error {
 	if err != nil {
 		return err
 	}
-	println(string(data))
 	req, err := http.NewRequest("POST", u.String(), bytes.NewBuffer(data))
 	if err != nil {
 		return err
@@ -72,5 +79,5 @@ func Push(f *Frame) error {
 }
 
 func progressBar(percent float64) string {
-	return fmt.Sprintf("[%-50s]%.2f%%", strings.Repeat("█", int(percent/2)), percent)
+	return fmt.Sprintf("[%-50s]", strings.Repeat("█", int(percent/2)))
 }

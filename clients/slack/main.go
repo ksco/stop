@@ -18,6 +18,16 @@ func main() {
 	if err != nil {
 		memory = 70
 	}
+	cpuStr := os.Getenv("CPU")
+	cpu, err := strconv.ParseFloat(cpuStr, 64)
+	if err != nil {
+		cpu = 80
+	}
+	diskStr := os.Getenv("DISK")
+	disk, err := strconv.ParseFloat(diskStr, 64)
+	if err != nil {
+		disk = 80
+	}
 
 	host := os.Getenv("HOST")
 	port := os.Getenv("PORT")
@@ -51,7 +61,7 @@ func main() {
 			continue
 		}
 
-		if frame.MemoryUsage() > memory {
+		if frame.MemoryUsagePercent() > memory || frame.DiskUsagePercent() > disk || frame.CPUUsagePercent > cpu {
 			_ = Push(frame)
 		}
 	}

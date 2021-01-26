@@ -43,6 +43,7 @@ type Frame struct {
 	CPUName          string         `json:"cpuName"`
 	CPUCores         uint64         `json:"cpuCores"`
 	CPUFreq          float64        `json:"cpuFreq"`
+	CPUUsagePercent  float64        `json:"cpuUsagePercent"`
 	RAMTotal         uint64         `json:"ramTotal"`
 	RAMUsage         uint64         `json:"ramUsage"`
 	SwapTotal        uint64         `json:"swapTotal"`
@@ -158,6 +159,11 @@ func (f *Frame) FillCPUCores(c remote.Client) error {
 
 func (f *Frame) FillCPUFreq(c remote.Client) (err error) {
 	f.CPUFreq, err = c.FloatValue("cat /proc/cpuinfo | grep 'cpu MHz' | awk -F\\: '{ print $2 }'")
+	return
+}
+
+func (f *Frame) FillCPUUsage(c remote.Client) (err error) {
+	f.CPUUsagePercent, err = c.FloatValue("cat <(grep 'cpu ' /proc/stat) <(sleep 0.5 && grep 'cpu ' /proc/stat) | awk -v RS=\"\" '{print ($13-$2+$15-$4)*100/($13-$2+$15-$4+$16-$5)}'")
 	return
 }
 
