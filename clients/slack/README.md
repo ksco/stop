@@ -10,4 +10,4 @@ docker run --name slack --env-file=<env file path> -d --rm <image>
 
 ### License
 
-The MIT License (MIT) - see [LICENSE](LICENSE) for more details
+The MIT License (MIT) - see [LICENSE](../../LICENSE) for more details
